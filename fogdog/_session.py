@@ -10,10 +10,10 @@ __all__ = ['_Session']
 
 class _Session(object):
 
-    def __init__(self):
-        self.hist_data = None
+    def __init__(self, data=None, row_labels=None):
+        self.hist_data = data
         self.ready_data = None
-        self.row_labels = {}
+        self.row_labels = row_labels if row_labels else {}
         self.ci_frames = []
 
     @property

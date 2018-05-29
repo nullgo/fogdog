@@ -6,11 +6,11 @@ __all__ = ['Session']
 
 class Session(object):
 
-    def __init__(self):
-        self._sess = _Session()
+    def __init__(self, data=None, row_labels=None):
+        self._sess = _Session(data, row_labels)
 
     def load_data(self, path, sep='\t', dtype=int):
-        """ Loads data.
+        """ Loads data from files.
 
         Note: All data elements are of the same data type.
         :param path: directory or single path or a list of paths
