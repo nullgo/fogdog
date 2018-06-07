@@ -34,13 +34,13 @@ class _Session(object):
         :return: iterable (each row of data)
         """
         self.hist_data = read_data(path, sep, dtype)
-        if has_row_labels(path):
+        if has_row_indices(path):
             i = 0
-            for rl in read_row_labels(path):
+            for rl in read_row_indices(path):
                 self.row_labels[rl] = i
                 i += 1
 
-    def cook_data(self, cooker, spices):
+    def cook_data(self, cooker, spices=None):
         """ Cooks data.
 
         :param cooker: cooker name
@@ -49,14 +49,15 @@ class _Session(object):
         """
         self.ready_data = cook_data(self.hist_data, cooker, spices)
 
-    def forecast_ci(self, forecaster, fn=1, save_to=None):
+    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None):
         """ Forecasts confidence intervals.
 
         :param forecaster: name of a registered forecaster
         :param fn: number of forecasting time units
+        :param spices: spices of forecaster
         :param save_to: saving path
         """
-        for ci_frame in forecast_ci(self.ready_data, forecaster, fn):
+        for ci_frame in forecast_ci(self.ready_data, forecaster, fn, spices):
             self.ci_frames.append(ci_frame)
 
         if save_to:

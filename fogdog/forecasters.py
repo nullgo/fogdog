@@ -15,10 +15,18 @@ class Forecaster(object):
         self._forecasters = {}
 
     def __call__(self, name):
+        if not self._is_name_valid(name):
+            raise ValueError('forecaster name already exists! name = %s' % name)
+
         def wrapper(func):
             self._forecasters[name] = func
             return func
         return wrapper
+
+    def _is_name_valid(self, name):
+        if name in self._forecasters.keys():
+            return False
+        return True
 
     def getattr(self, name):
         if name in self._forecasters.keys():
@@ -106,7 +114,10 @@ def lr(row, fn=1):
     cif = CIFrame()
     for i in range(fn):
         mean = slope * (len(x) + fn) + intercept
-        ci_slice = [ss.norm.interval(alpha/100, mean, std_err) for alpha in range(1, 100)]
+        if std_err != 0:
+            ci_slice = [ss.norm.interval(alpha/100, mean, std_err) for alpha in range(1, 100)]
+        else:
+            ci_slice = [(mean, mean)] * 99
         cif.put(ci_slice)
     return cif
 

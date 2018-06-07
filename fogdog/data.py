@@ -1,7 +1,7 @@
 from ._data import *
 
 
-__all__ = ['read_data', 'cook_data', 'read_row_labels', 'has_row_labels']
+__all__ = ['read_data', 'cook_data', 'read_row_indices', 'has_row_indices']
 
 
 def read_data(path, sep='\t', dtype=int):
@@ -17,24 +17,24 @@ def read_data(path, sep='\t', dtype=int):
         yield row
 
 
-def read_row_labels(path):
-    """ Reads row labels.
+def read_row_indices(path):
+    """ Reads row indices.
 
-    Note: row label file has postfix '.rl' and the same file name with data file.
+    Note: row indices file has postfix '.ri' and the same file name with data file.
     :param path: data path
-    :return: iterable (row labels)
+    :return: iterable (row indices)
     """
-    for row_label in _read_row_labels(path):
-        yield row_label
+    for row_index in _read_row_indices(path):
+        yield row_index
 
 
-def has_row_labels(path):
-    """ Exams whether row label files exist.
+def has_row_indices(path):
+    """ Exams whether row index files exist.
 
     :param path: data path
     :return: True or False
     """
-    return _has_row_labels(path)
+    return _has_row_indices(path)
 
 
 def cook_data(data, cooker, spices=None):

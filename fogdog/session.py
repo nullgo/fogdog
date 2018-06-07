@@ -6,8 +6,8 @@ __all__ = ['Session']
 
 class Session(object):
 
-    def __init__(self, data=None, row_labels=None):
-        self._sess = _Session(data, row_labels)
+    def __init__(self, data=None, row_indices=None):
+        self._sess = _Session(data, row_indices)
 
     def load_data(self, path, sep='\t', dtype=int):
         """ Loads data from files.
@@ -20,7 +20,7 @@ class Session(object):
         """
         self._sess.load_data(path, sep, dtype)
 
-    def cook_data(self, cooker, spices):
+    def cook_data(self, cooker, spices=None):
         """ Cooks data.
 
         :param cooker: cooker name
@@ -29,14 +29,15 @@ class Session(object):
         """
         self._sess.cook_data(cooker, spices)
 
-    def forecast_ci(self, forecaster, fn=1, save_to=None):
+    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None):
         """ Forecasts confidence intervals.
 
         :param forecaster: name of a registered forecaster
         :param fn: number of forecasting time units
+        :param spices: spices of the forecaster
         :param save_to: saving path
         """
-        self._sess.forecast_ci(forecaster, fn, save_to)
+        self._sess.forecast_ci(forecaster, fn, spices, save_to)
 
     def load_fci(self, path):
         """ Loads CIFrame objects.
@@ -55,3 +56,5 @@ class Session(object):
         :return: confidence interval
         """
         return self._sess.get_fci(row_index, alpha, forecast_index)
+
+
