@@ -13,8 +13,7 @@ def read_data(path, sep='\t', dtype=int):
     :param dtype: data type
     :return: iterable (each row of data)
     """
-    for row in _read_data(path, sep, dtype):
-        yield row
+    return _read_data(path, sep, dtype)
 
 
 def read_row_indices(path):
@@ -24,8 +23,7 @@ def read_row_indices(path):
     :param path: data path
     :return: iterable (row indices)
     """
-    for row_index in _read_row_indices(path):
-        yield row_index
+    return _read_row_indices(path)
 
 
 def has_row_indices(path):
@@ -43,7 +41,6 @@ def cook_data(data, cooker, spices=None):
     :param data: iterable rows
     :param cooker: cooker name
     :param spices: single tuple or a list of tuples
-    :return: iterable rows
+    :return: list of rows
     """
-    for row in _cook_data(data, cooker, spices):
-        yield row
+    return _cook_data_1(data, cooker, spices)

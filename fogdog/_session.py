@@ -3,6 +3,7 @@ from .fci import *
 import pickle
 from .logger import *
 from pathlib import Path
+from .multip import *
 
 
 __all__ = ['_Session']
@@ -40,24 +41,26 @@ class _Session(object):
                 self.row_labels[rl] = i
                 i += 1
 
-    def cook_data(self, cooker, spices=None):
+    def cook_data(self, cooker, spices=None, processes=1):
         """ Cooks data.
 
         :param cooker: cooker name
         :param spices: single tuple or a list of tuples
-        :return: iterable rows
+        :param processes: number of processes
         """
-        self.ready_data = cook_data(self.hist_data, cooker, spices)
+        self.ready_data = multi_process(cook_data, (self.hist_data, cooker, spices), processes)
 
-    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None):
+    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None, processes=1):
         """ Forecasts confidence intervals.
 
         :param forecaster: name of a registered forecaster
         :param fn: number of forecasting time units
         :param spices: spices of forecaster
         :param save_to: saving path
+        :param processes: number of processes
         """
-        for ci_frame in forecast_ci(self.ready_data, forecaster, fn, spices):
+
+        for ci_frame in multi_process(forecast_ci, (self.ready_data, forecaster, fn, spices), processes):
             self.ci_frames.append(ci_frame)
 
         if save_to:

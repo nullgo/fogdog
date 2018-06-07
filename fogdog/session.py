@@ -20,24 +20,25 @@ class Session(object):
         """
         self._sess.load_data(path, sep, dtype)
 
-    def cook_data(self, cooker, spices=None):
+    def cook_data(self, cooker, spices=None, processes=1):
         """ Cooks data.
 
         :param cooker: cooker name
         :param spices: single tuple or a list of tuples
-        :return: iterable rows
+        :param processes: number of processes
         """
-        self._sess.cook_data(cooker, spices)
+        self._sess.cook_data(cooker, spices, processes)
 
-    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None):
+    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None, processes=1):
         """ Forecasts confidence intervals.
 
         :param forecaster: name of a registered forecaster
         :param fn: number of forecasting time units
         :param spices: spices of the forecaster
+        :param processes: number of processes
         :param save_to: saving path
         """
-        self._sess.forecast_ci(forecaster, fn, spices, save_to)
+        self._sess.forecast_ci(forecaster, fn, spices, save_to, processes)
 
     def load_fci(self, path):
         """ Loads CIFrame objects.

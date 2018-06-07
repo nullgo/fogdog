@@ -3,7 +3,7 @@ from .logger import *
 from .cookers import cooker as ck
 
 
-__all__ = ['_read_data', '_cook_data', '_read_row_indices', '_has_row_indices']
+__all__ = ['_read_data', '_cook_data', '_cook_data_1', '_read_row_indices', '_has_row_indices']
 
 
 def _read_data(path, sep='\t', dtype=int):
@@ -152,6 +152,17 @@ def _cook_data(data, cooker, spices=None):
                 raise Exception('Cooker is not valid. cooker = ' % cooker)
     else:
         raise ValueError("'spices' has wrong format!")
+
+
+def _cook_data_1(data, cooker, spices=None):
+    """ Cooks data.
+
+    :param data: iterable rows
+    :param cooker: cooker name
+    :param spices: single tuple or a list of tuples
+    :return: list of rows
+    """
+    return [row for row in _cook_data(data, cooker, spices)]
 
 
 def _is_cooker_valid(cooker_output):
