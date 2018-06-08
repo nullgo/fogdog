@@ -16,6 +16,11 @@ class _Session(object):
         self.ready_data = None
         self.row_labels = row_labels if row_labels else {}
         self.ci_frames = []
+        self.processes = 1  # number of processes
+
+    def set_processes(self, n):
+        assert isinstance(n, int) and n > 0, 'n must be positive integer!'
+        self.processes = n
 
     @property
     def fn(self):
@@ -41,16 +46,15 @@ class _Session(object):
                 self.row_labels[rl] = i
                 i += 1
 
-    def cook_data(self, cooker, spices=None, processes=1):
+    def cook_data(self, cooker, spices=None):
         """ Cooks data.
 
         :param cooker: cooker name
         :param spices: single tuple or a list of tuples
-        :param processes: number of processes
         """
-        self.ready_data = multi_process(cook_data, (self.hist_data, cooker, spices), processes)
+        self.ready_data = multi_process(cook_data, (self.hist_data, cooker, spices), self.processes)
 
-    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None, processes=1):
+    def forecast_ci(self, forecaster, fn=1, spices=None, save_to=None):
         """ Forecasts confidence intervals.
 
         :param forecaster: name of a registered forecaster
@@ -60,7 +64,7 @@ class _Session(object):
         :param processes: number of processes
         """
 
-        for ci_frame in multi_process(forecast_ci, (self.ready_data, forecaster, fn, spices), processes):
+        for ci_frame in multi_process(forecast_ci, (self.ready_data, forecaster, fn, spices), self.processes):
             self.ci_frames.append(ci_frame)
 
         if save_to:
