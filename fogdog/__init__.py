@@ -1,8 +1,7 @@
-__version__ = '0.0.8'
+__version__ = '0.0.9'
 
 
-from .fci import *
-from .data import *
-from .forecasters import *
-from .cookers import *
+from .susan import *
+from .forecaster import *
+from .cooker import *
 from .session import *

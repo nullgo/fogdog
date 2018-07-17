@@ -6,11 +6,11 @@ __all__ = ['multi_process']
 
 
 def _partition_data(data, num):
-    """ Partitions data into pieces.
+    """ Partition data.
 
     :param data: iterable rows
-    :param num:  number of pieces
-    :return: list of data pieces
+    :param num: number of partitions
+    :return: list of data partitions
     """
 
     rows = [row for row in data]
